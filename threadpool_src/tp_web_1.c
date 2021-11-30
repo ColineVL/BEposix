@@ -38,7 +38,7 @@ void dispatch_requests ( /* to be completed  */ ) {
 
 int main(int argc, char **argv) {
   
-    printf ("\x1B[32m %s \x1B[0m%s", "[MAIN]", "Start processing\n");
+    printf  ("\x1B[32m %s \x1B[0m%s", "[MAIN]", "Start processing\n");
 
     /*--------------------------------------------------------------------------*/
     /* Initialize a thread pool of size 10                                       */
