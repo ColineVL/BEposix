@@ -5,7 +5,7 @@ LDFLAGS = -lpthread
 SOURCES = threadpool.c
 OBJS = $(patsubst %.c,%.o,$(SOURCES))
 
-BINS=test_threadpool tp_web_1 lf_web web_client
+BINS=test_threadpool tp_web_1 lf_web web_client web_client_bench1
 
 all: $(BINS)
 
@@ -30,6 +30,9 @@ lf_web: lf_web.c $(OBJS)
 
 web_client: web_client.c $(OBJS)
 	$(CC) -o web_client web_client.c $(OBJS) $(CFLAGS) $(LDFLAGS)
+
+web_client_bench1: web_client_bench1.c $(OBJS)
+	$(CC) -o web_client_bench1 web_client_bench1.c $(OBJS) $(CFLAGS) $(LDFLAGS)
 
 clean:
 	-rm -rf *.o *~ *.dSYM
