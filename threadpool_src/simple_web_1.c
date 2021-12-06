@@ -19,7 +19,7 @@ char response[] = "HTTP/1.1 200 OK\r\n"
 "<body bgcolor=lightgreen><h1>Hello from my own web server !</h1></body></html>\r\n";
 
 /******************************************************************************/
-void webserver_process (void *data) {
+void webserver_process (void *data  ) {
 
   int *client_fd = (int *) data;
   int bufsize = 1024;
