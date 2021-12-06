@@ -1,10 +1,17 @@
 #!/bin/bash
 
-start=1
-nb_clients=1000
+file="./data.txt"
 
-for i in {1..1000}
+[ -f $file ] && rm $file || touch $file
+
+for i in {1..200}
 do
-    bash ./basic_client_func.sh &
+    echo "$i $(bash ./basic_client_func.sh)" >> $file &
 done
-wait
+
+sleep 5
+
+python parser.py
+
+
+
