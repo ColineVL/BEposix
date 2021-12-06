@@ -33,6 +33,8 @@ char response[] = "HTTP/1.1 200 OK\r\n"
 "<!DOCTYPE html><html><head><title>Mon serveur web</title>"
 "<body bgcolor=lightgreen><h1>Hello from my own web server !</h1></body></html>\r\n";
 
+char response2 [] = "1";
+
 /******************************************************************************/
 /* leader function processes the request                                                     */
 /******************************************************************************/
