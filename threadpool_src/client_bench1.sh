@@ -1,17 +1,26 @@
 #!/bin/bash
 
-file="./data.txt"
 
-[ -f $file ] && rm $file || touch $file
 
-for i in {1..200}
+
+for k in 10 100 150 200 250 300
 do
-    echo "$i $(bash ./basic_client_func.sh)" >> $file &
+    file="./data_$k.txt"
+    [ -f $file ] && rm $file || touch $file
+
+    # pour lancer 10 fois
+    for j in {1..10}
+    do
+        for i in $( seq 1 $k )
+        do
+            bash ./basic_client_func.sh >> $file &
+        done
+        wait
+    done
+    python parser.py $file
 done
 
-sleep 5
 
-python parser.py
 
 
 
