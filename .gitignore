@@ -51,3 +51,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# res logs
+threadpool_src/test_data_log.txt
+

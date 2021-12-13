@@ -1,23 +1,26 @@
 #!/bin/bash
 
+file="./test_data_log.txt"
+[ -f $file ] && rm $file
+touch $file
 
-
-
-for k in 10 100 150 200 250 300
+for k in 50 100 150 200 250 300 # number of clients
 do
-    file="./data_$k.txt"
-    [ -f $file ] && rm $file || touch $file
 
-    # pour lancer 10 fois
-    for j in {1..10}
+    echo "n_clients - $k" >> $file
+    for j in {1..10} # launch 10 times to compute a mean
     do
-        for i in $( seq 1 $k )
+        time_start=$(date +%s.%N)
+        for i in $( seq 1 $k ) # launch k clients (almost) simultaneously
         do
-            bash ./basic_client_func.sh >> $file &
+            echo "$i - $(bash ./basic_client_func.sh)" >> $file &
         done
-        wait
+        time_end=$(date +%s.%N)
+        delta=$(echo "$time_end - $time_start" | bc)
+        echo "launch_time - $delta" >> $file
+        sleep 10
     done
-    python parser.py $file
+    # python parser.py $file
 done
 
 
