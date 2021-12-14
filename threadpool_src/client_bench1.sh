@@ -1,6 +1,6 @@
 #!/bin/bash
 
-file="./test_data_log.txt"
+file="./res_log_arthur_lf.txt"
 [ -f $file ] && rm $file
 touch $file
 
