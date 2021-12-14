@@ -9,7 +9,8 @@ with open(filename) as f:
 
 f.close()
 
-repeat_factor = 2
+
+repetition = 2.0
 
 loss_rates = {} # for each number of clients get percentage of clients never served as a fraction
 max_latencies = {} # for each number of clients get maximum service delay
@@ -27,11 +28,12 @@ for line in lines:
     info = line.strip("\n").split(" - ")
     if "n_clients" in line:
         if n_clients>0:
-            loss_rates[n_clients] = (n_clients - real_n_clients/repeat_factor)/n_clients
+            loss_rates[n_clients] = (n_clients - real_n_clients/repetition)/n_clients
             max_latencies[n_clients] = max_latency
             mean_latencies[n_clients] = latencies_sum/real_n_clients ## by what to divide ?
             mean_launch_times[n_clients] = launch_times_sum/iteration_count
-            clients_per_sec[n_clients] = (real_n_clients/repeat_factor)/max_latency
+            clients_per_sec[n_clients] = real_n_clients/max_latency
+
             real_n_clients = 0
             launch_times_sum = 0
             iteration_count = 0
@@ -46,7 +48,8 @@ for line in lines:
         real_n_clients += 1
         latencies_sum += float(info[1])
         max_latency = max(max_latency, float(info[1]))
-loss_rates[n_clients] = (n_clients - real_n_clients/repeat_factor)/n_clients
+
+loss_rates[n_clients] =(n_clients - real_n_clients/repetition)/n_clients
 max_latencies[n_clients] = max_latency
 mean_latencies[n_clients] = latencies_sum/real_n_clients ## by what to divide ?
 mean_launch_times[n_clients] = launch_times_sum/iteration_count
@@ -65,3 +68,4 @@ data.index.rename("n_clients", inplace = True)
 print(data)
 
 data.to_csv(f"./metrics_arthur_{version}.csv")
+
