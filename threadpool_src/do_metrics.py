@@ -1,13 +1,16 @@
 import sys
 import pandas as pd
 
-filename = "./test_data_log.txt"
+version = "lf"
+filename = f"./res_log_arthur_{version}.txt"
 
 with open(filename) as f:
     lines = f.readlines()
 
 f.close()
 
+
+repetition = 2.0
 
 loss_rates = {} # for each number of clients get percentage of clients never served as a fraction
 max_latencies = {} # for each number of clients get maximum service delay
@@ -25,11 +28,12 @@ for line in lines:
     info = line.strip("\n").split(" - ")
     if "n_clients" in line:
         if n_clients>0:
-            loss_rates[n_clients] = n_clients/real_n_clients
+            loss_rates[n_clients] = (n_clients - real_n_clients/repetition)/n_clients
             max_latencies[n_clients] = max_latency
             mean_latencies[n_clients] = latencies_sum/real_n_clients ## by what to divide ?
             mean_launch_times[n_clients] = launch_times_sum/iteration_count
-            clients_per_sec[n_clients] = n_clients/max_latency
+            clients_per_sec[n_clients] = real_n_clients/max_latency
+
             real_n_clients = 0
             launch_times_sum = 0
             iteration_count = 0
@@ -38,17 +42,18 @@ for line in lines:
         n_clients = int(info[1])
     elif "launch_time" in line:
         launch_times_sum += float(info[1])
+        iteration_count += 1
     else:
         assert n_clients>0
         real_n_clients += 1
-        iteration_count += 1
         latencies_sum += float(info[1])
         max_latency = max(max_latency, float(info[1]))
-loss_rates[n_clients] = n_clients/real_n_clients
+
+loss_rates[n_clients] =(n_clients - real_n_clients/repetition)/n_clients
 max_latencies[n_clients] = max_latency
 mean_latencies[n_clients] = latencies_sum/real_n_clients ## by what to divide ?
 mean_launch_times[n_clients] = launch_times_sum/iteration_count
-clients_per_sec[n_clients] = n_clients/max_latency
+clients_per_sec[n_clients] = real_n_clients/max_latency
 
 
 data = pd.DataFrame({
@@ -61,4 +66,6 @@ data = pd.DataFrame({
 data.index.rename("n_clients", inplace = True)
 
 print(data)
+
+data.to_csv(f"./metrics_arthur_{version}.csv")
 
