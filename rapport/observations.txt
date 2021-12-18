@@ -1,0 +1,8 @@
+Latence moyenne :
+Nous pouvons voir sur la figure XXX que la latence moyenne du client a tendance à augmenter avec le nombre de requêtes servies ; le nombre de points de mesure ne nous permet pas d'en déduire une loi statistiquement viable mais on peut extrapoler une regression linéaire avec les paramètres suivants : ...
+Le fait que l'ordonnée à l'origine soit négative correspond au attentes puisqu'avec un petit nombre de clients le serveur est censé pouvoir les traiter en parallèle, ce qui laisse une latence minimale, alors que quand le nombre de clients augmente les requêtes passent dans la queue un temps proportionnel à la longueur de celle-ci.
+
+
+
+Clients servis par seconde :
+Le nombre de clients servis par seconde, 

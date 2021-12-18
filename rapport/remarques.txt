@@ -1,0 +1,6 @@
+Étant limité par le matériel à notre disposition nous n'avons pas pu mettre en oeuvre un banc de test rigoureux pour tester les serveurs.
+Ceci s'est traduit de plusieurs manières dans les résultats.
+Tout d'abord nous nous sommes rendu compte que le lancement des clients ne pouvait être fait en parallèle, ni même que le temps de lancement des clients était négligeable devant le temps de réponse à un client. Cela veut dire que lorsque nous lancons 100 clients, seule une portion d'entre eux arrive en parallèle sur le serveur et remplit effectivement la queue ; les autres arrivent avec un temps de retard et sont donc servis plus rapidement que s'ils étaient arrivés en même temps.
+Ensuite nous avons découvert le phénomène de disparition de requêtes clients, dans des proportions relativement constantes dépendant de la machine.
+Nous ne pouvons à notre niveau trouver la source de ces disparitions ni leur impact sur la performance mesurée du serveur. Nous soupconnons que ce phénomène soit dû à un buffer overflow, soit au niveau de la queue du serveur soit au niveau système.
+

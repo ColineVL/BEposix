@@ -1,6 +1,6 @@
 #!/bin/bash
 
-file="./res_log_arthur_lf.txt"
+file="./res_log_arthur_tp.txt"
 [ -f $file ] && rm $file
 touch $file
 
@@ -10,7 +10,7 @@ for k in 50 100 150 200 250 300 # number of clients
 do
 
     echo "n_clients - $k" >> $file
-    for j in {1..2} # launch 2 times to compute a mean
+    for j in {1..5} # launch 10 times to compute a mean
     do
         time_start=$(date +%s.%N)
         for i in $( seq 1 $k ) # launch k clients (almost) simultaneously
