@@ -56,18 +56,18 @@ void process_request(void *requete)
 
 void leader_process(pthread_pool_t *thread_pool)
 {
-  // quand je recupere une request
+  // leader_process waits for a request and accepts it
   parameters.client_fd = accept(parameters.sock, (struct sockaddr *)&parameters.from, &parameters.sin_len);
-  // je nomme un follower leader
+  // then launches itself on another thread, which becomes the new leader
   pthread_pool_exec(thread_pool, leader_process, thread_pool);
-  // je me casse pour deal with my request
+  // finally processes the request
   process_request((void *)&parameters.client_fd);
 }
 
 /******************************************************************************/
 int main(int argc, char **argv)
 {
-
+  size_t i;
   printf("\x1B[32m %s \x1B[0m%s", "[MAIN]", "Start processing\n");
 
   /*--------------------------------------------------------------------------*/
@@ -107,9 +107,13 @@ int main(int argc, char **argv)
   /*--------------------------------------------------------------------------*/
   pthread_pool_exec(thread_pool, leader_process, thread_pool);
 
-  while (1)
+
+  
+  for (i = 0; i < 10; i++)
   {
+    pthread_join(thread_pool->threads[i], NULL);
   }
+  
 
   return EXIT_SUCCESS;
 }

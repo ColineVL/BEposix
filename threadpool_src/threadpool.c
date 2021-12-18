@@ -9,60 +9,8 @@
 #include "utils.h"
 #include "threadpool.h"
 
-/******************************************************************************/
-/* Private types */
 
-/**
- * @brief Here is the definition of a structure representing a task to be
- * executed by a thread pool.
- *
- * @attribute routine The funtion to be called when the task is executed.
- * @attribute data    The data to be sent to the callback function.
- * @attribute next    The next task in the queue that stores the tasks.
- */
-typedef struct _pthread_task {
-  void (*routine)();
-  void *data;
-  struct _pthread_task *next;
-} pthread_task_t;
 
-/**
- * @brief Here is the definition of a structure representing a synchronized
- * queue where pending tasks are stored before being executed by the thread
- * pool.
- *
- * @attribute mutex The mutex used to synchronize the access to the task queue.
- * @attribute cond  The condition to be used by the threads to wait for tasks.
- * @attribute first The first task in the queue.
- * @attribute last  The last task in the queue.
- * @attribute terminated flag, to say whether the execution has been terminated.
- */
-
-typedef struct _pthread_queue {
-  pthread_mutex_t mutex;
-  pthread_cond_t cond;
-  pthread_task_t *first;
-  pthread_task_t *last;
-  bool terminated;
-} pthread_queue_t;
-
-/**
- * @brief Here is the definition of a structure representing a thread pool.
- *
- * @attribute mutex   A mutex used to synchronize the access to the thread pool.
- * @attribute queue   The instance of pthread_queue_t used to store the pending
- * tasks.
- * @attribute threads The vector storing the list of threads.
- * @attribute thread_init The number of initialized threads.
- * @attribute thread_count The number of threads in the thread pool.
- */
-struct _pthread_pool {
-  pthread_mutex_t mutex;
-  pthread_queue_t queue;
-  pthread_t *threads;
-  size_t thread_init;
-  size_t thread_count;
-};
 
 /******************************************************************************/
 /* Private functions */
