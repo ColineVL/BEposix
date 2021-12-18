@@ -33,7 +33,6 @@ for line in lines:
             mean_latencies[n_clients] = latencies_sum/real_n_clients ## by what to divide ?
             mean_launch_times[n_clients] = launch_times_sum/iteration_count
             clients_per_sec[n_clients] = real_n_clients/(latencies_sum/real_n_clients)
-
             real_n_clients = 0
             launch_times_sum = 0
             iteration_count = 0
